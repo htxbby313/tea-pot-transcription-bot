@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Tea Pot Transcription Bot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .legal-page { padding: 120px 0 80px; }
+    .legal-page-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 48px; max-width: 800px; margin: 0 auto; }
+    .legal-page-card h1 { font-family: var(--font-heading); font-size: 2.2rem; color: #FFF; margin-bottom: 8px; }
+    .legal-page-card .last-updated { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 32px; display: block; border-bottom: 1px solid var(--border-glass); padding-bottom: 16px; }
+    .legal-page-card h2 { font-size: 1.2rem; color: var(--primary-mint); margin: 24px 0 8px; font-family: var(--font-heading); }
+    .legal-page-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+    .legal-page-card strong { color: #FFF; }
+  </style>
+</head>
+<body>
+  <div class="glow-orb orb-1"></div>
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-icon">🫖</span>
+        <span class="brand-text">Tea Pot <span class="brand-tag">STT</span></span>
+      </a>
+      <a href="index.html" class="btn btn-secondary btn-sm">← Back to Home</a>
+    </div>
+  </header>
+
+  <main class="legal-page">
+    <div class="container">
+      <div class="legal-page-card">
+        <h1>Privacy Policy</h1>
+        <span class="last-updated">Last Updated: September 26, 2026</span>
+
+        <h2>1. Audio Data Handling</h2>
+        <p>Tea Pot receives voice audio streams in real-time memory strictly to perform speech-to-text transcription. <strong>Raw audio files and voice recordings are never stored permanently on our servers or sold to third parties.</strong> Audio chunks are processed ephemerally in RAM and immediately discarded once transcribed.</p>
+
+        <h2>2. Transparency & Consent</h2>
+        <p>To ensure full transparency and two-party consent compliance, Tea Pot plays an audible chime (*"Tea Pot Transcription is now active in this channel"*) whenever it joins a voice channel, accompanied by a text notification in the designated transcript channel.</p>
+
+        <h2>3. Data Stored</h2>
+        <p>We store only essential configuration metadata necessary for bot operations:</p>
+        <ul>
+          <li>Server ID & designated transcript channel ID</li>
+          <li>Configured retention duration settings</li>
+          <li>Temporary thread tracking IDs for automated cleanup</li>
+        </ul>
+
+        <h2>4. Tiered Retention & Auto-Purge</h2>
+        <p>Under the Free and Pro tiers, transcription threads are automatically deleted after 24 to 48 hours unless upgraded to a permanent retention tier.</p>
+
+        <h2>5. Your Rights & Data Deletion</h2>
+        <p>Server administrators have full control over their transcript channels and threads. Deleting a thread or kicking the bot immediately terminates any active sessions and purge tracking.</p>
+
+        <h2>6. Contact Us</h2>
+        <p>For questions or privacy concerns, please open an issue on our GitHub repository: <strong>github.com/htxbby313/tea-pot-transcription-bot</strong>.</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
