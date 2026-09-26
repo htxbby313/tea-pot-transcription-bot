@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  discord-transcriber:
+    build: .
+    container_name: discord-transcriber-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./audio_assets:/app/audio_assets
