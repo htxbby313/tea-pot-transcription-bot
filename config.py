@@ -41,8 +41,5 @@ def validate_config():
     errors = []
     if not DISCORD_BOT_TOKEN:
         errors.append("DISCORD_BOT_TOKEN is missing in .env")
-    if STT_PROVIDER == "openai" and not OPENAI_API_KEY:
-        errors.append("OPENAI_API_KEY is required when STT_PROVIDER is set to 'openai'")
-    elif STT_PROVIDER == "deepgram" and not DEEPGRAM_API_KEY:
-        errors.append("DEEPGRAM_API_KEY is required when STT_PROVIDER is set to 'deepgram'")
     return errors
+

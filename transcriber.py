@@ -79,23 +79,62 @@ class DeepgramTranscriber(BaseTranscriber):
             logger.error(f"Deepgram transcription error: {e}")
             return ""
 
+class LocalWhisperTranscriber(BaseTranscriber):
+    def __init__(self, model_size: str = "base", language: str = "en"):
+        self.model_size = model_size
+        self.language = language if language != "auto" else None
+        self._model = None
+
+    def _ensure_model(self):
+        if self._model is None:
+            from faster_whisper import WhisperModel
+            logger.info(f"Initializing local Whisper AI model ({self.model_size})...")
+            self._model = WhisperModel(self.model_size, device="auto", compute_type="auto")
+
+    async def transcribe_audio(self, audio_bytes: bytes, filename: str = "audio.wav") -> str:
+        if not audio_bytes or len(audio_bytes) < 1000:
+            return ""
+        try:
+            self._ensure_model()
+            audio_file = io.BytesIO(audio_bytes)
+            loop = asyncio.get_event_loop()
+
+            def _run():
+                segments, _ = self._model.transcribe(
+                    audio_file,
+                    language=self.language,
+                    beam_size=1,
+                    vad_filter=True
+                )
+                parts = [s.text.strip() for s in segments if s.text.strip()]
+                return " ".join(parts).strip()
+
+            return await loop.run_in_executor(None, _run)
+        except Exception as e:
+            logger.error(f"Local Whisper transcription error: {e}")
+            return ""
+
 def get_transcriber() -> BaseTranscriber:
     provider = config.STT_PROVIDER
-    if provider == "deepgram":
-        if not config.DEEPGRAM_API_KEY:
-            raise ValueError("DEEPGRAM_API_KEY is not set in configuration")
+    if provider == "deepgram" and config.DEEPGRAM_API_KEY:
         logger.info(f"Using Deepgram Transcriber (model: {config.DEEPGRAM_MODEL})")
         return DeepgramTranscriber(
             api_key=config.DEEPGRAM_API_KEY,
             model=config.DEEPGRAM_MODEL,
             language=config.LANGUAGE
         )
-    else:
-        if not config.OPENAI_API_KEY:
-            raise ValueError("OPENAI_API_KEY is not set in configuration")
+    elif provider == "openai" and config.OPENAI_API_KEY:
         logger.info(f"Using OpenAI Whisper Transcriber (model: {config.OPENAI_WHISPER_MODEL})")
         return OpenAITranscriber(
             api_key=config.OPENAI_API_KEY,
             model=config.OPENAI_WHISPER_MODEL,
             language=config.LANGUAGE
         )
+    else:
+        # Fallback to 100% Free Local Offline AI Whisper (Zero API Keys required!)
+        logger.info("Using 100% Free Local Offline Whisper Model (No API keys required)")
+        return LocalWhisperTranscriber(
+            model_size=os.getenv("LOCAL_WHISPER_MODEL", "base"),
+            language=config.LANGUAGE
+        )
+
